@@ -100,3 +100,30 @@ function updateLightboxContent(imageSrc) {
 function openLightbox() {
     lightboxInstance.show();
 }
+
+function onGalleryClick(event) {
+    event.preventDefault();
+
+    if (event.target.nodeName !== 'IMG') {
+        return;
+    }
+
+    const imageSrc = event.target.dataset.source;
+
+    if (!lightboxInstance) {
+        initializeLightbox();
+    }
+
+    updateLightboxContent(imageSrc);
+    openLightbox();
+}
+
+function onKeydown(event) {
+    if (event.key === 'Escape' && lightboxInstance) {
+        lightboxInstance.close();
+    }
+}
+
+galleryContainer.innerHTML = generateGalleryMarkup(images);
+
+galleryContainer.addEventListener('click', onGalleryClick);
